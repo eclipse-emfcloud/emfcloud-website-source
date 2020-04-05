@@ -3,6 +3,9 @@ DefaultContentLanguage = "en"
 title = "EMF.cloud"
 theme = "syna"
 
+[markup.goldmark.renderer]
+unsafe = true
+
 # Google Analytics tracking
 googleAnalytics = "UA-155083212-1"
 [privacy]
