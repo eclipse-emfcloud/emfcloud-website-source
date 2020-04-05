@@ -1,0 +1,10 @@
++++
+title = "Browse the sources"
+weight = 20
+
+[asset]
+  icon = "fas fa-code"
+  url = "https://github.com/eclipsesource/coffee-editor"
++++
+
+The coffee editor is an open source example modeling application. Have a look at [the sources](https://github.com/eclipsesource/coffee-editor) to find out how the features are implemented. The link above als contains instructions how to run the coffee editor yourself.
