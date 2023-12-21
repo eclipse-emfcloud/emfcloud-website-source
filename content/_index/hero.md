@@ -6,19 +6,23 @@ weight = 100
 background = "dark" # can influence the text color
 particles = true
 
-title = "EMF.cloud"
-subtitle = "EMF.cloud - evolve your modeling tools to the web!"
+title = "EMF Cloud"
+subtitle = "Develop web-based modeling tools with ease"
 
 [header]
 
-
 [asset]
-  image = "diagramanimated.gif"
-  width = "600px" # optional - will default to image width
+  image = "coffeeeditordemo_ng.gif"
+  width = "800px" # optional - will default to image width
 
 [[buttons]]
-  text = "Components"
-  url = "#components"
+  text = "Try Now"
+  url = "https://eclipsesource.com/coffee-editor"
+  color = "primary"
+
+[[buttons]]
+  text = "Getting Started"
+  url = "/documentation/overview"
   color = "primary"
 
 [[buttons]]

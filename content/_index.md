@@ -1,4 +1,4 @@
 +++
-title = "EMF.cloud"
-description = "The Eclipse Modeling Framework for the cloud"
+title = "EMF Cloud"
+description = "Open-source Frameworks for Next-generation, Web-based Modeling Tools"
 +++
