@@ -24,7 +24,7 @@ To make your life easier, you don't have to implement all of those Model Hub cap
 Instead EMF Cloud provides reusable libraries and integration code for third-party components to cover the most common choices and formats, such as JSON files.
 Also, EMF Cloud contains libraries that make it easy to connect and interact with the Model Hub.
 
-➡️ Best to [get started]({{< relref  "gettingStarted" >}}) with the Coffee Editor NG!
+➡️ Best to [get started]({{< relref  "gettingStarted" >}}) with one of our example applications: Model Hub examples for model management or CrossModel for DSL support.
 
 **Note on EMF:** If you need to support EMF-based models, there is a dedicated Java-based model management component for EMF models. For more information, please head over to the [EMF support documentation]({{< relref  "emf" >}}).
 For all other use cases, we recommend to use the *Model Hub* as it provides a more homogeneous developer experience based on Typescript throughout the client and the server.

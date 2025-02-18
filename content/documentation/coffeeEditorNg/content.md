@@ -1,35 +1,44 @@
 +++
 fragment = "content"
-title = "Coffee Editor NG"
+title = "Modeling Tool Approaches"
 weight = 130
 [sidebar]
   sticky = true
 +++
 
-The Coffee Editor NG is a comprehensive example modeling tool based on EMF Cloud technologies and can also act as an architecture blueprint for your custom modeling tool.
-It thus brings together a set of best practices in architecture and technology selection from both inside and outside of EMF Cloud.
-This full-featured example tool is written entirely in Typescript and includes a central Model Hub serving a sample modeling language to a variety of editors, such as a diagram editor, a form-based editor, as well as a textual DSL editor.
+EMF Cloud provides two complementary approaches for building modeling tools. Each approach is tailored to specific requirements and is integrated as a core part of the framework.
+
+## Model Hub Approach
+
+This approach focuses on comprehensive model management. It is built around a central Model Hub that offers robust capabilities such as command-based editing, state management with undo/redo, and persistence. This is ideal for scenarios where a powerful environment for managing complex models is required. Detailed examples for this approach can be found in the Model Hub repository:
+
+https://github.com/eclipse-emfcloud/modelhub/tree/main/examples/theia
 
 <div style="text-align:center; margin-bottom:20px">
-  <img src="../../images/coffeeeditormodelhub.svg" alt="Overview of the Model Hub for the Coffee Editor NG" width="70%" />
+  <img src="../../images/coffeeeditormodelhub.svg" alt="Overview of the Model Hub" width="70%" />
 </div>
 
-The core of the Coffee Editor NG is a model language contribution to the Model Hub.
-With this language contribution, we register the modeling language alongside the capabilities for handling this modeling language in the Model Hub.
-The contributed Coffee Editor NG Model is defined with Langium, an open-source language toolkit for textual languages.
-The Langium-based language is then integrated into the Model Hub API with the generic *EMF Cloud Model Hub Langium* integration library, so that Model Hub clients can interact with the language on model level and benefit from Langium's efficient persistence, cross-reference management and validation mechanism.
+## Langium-Based DSL Approach
 
-In order to also simplify the editing capabilities, including undo and redo, on model level -- rather than on text level -- we use the *EMF Cloud Editing Domain*, which provies state management, as well as a command API and a command stack for arbitrary JSON models.
+This approach is designed for applications that require dedicated DSL support. Leveraging Langium, it provides advanced textual language features including parsing, reference resolution, and language server integration. This path is ideal for scenarios where the development of a domain-specific language is crucial. A prominent example demonstrating this approach is the CrossModel application, available at:
 
-Finally, the Coffee Editor NG language contribution adds a custom coffee-model-specific API to be used by clients in order to provide reusable model queries and manipulation functions to the clients.
+https://github.com/CrossBreezeNL/crossmodel
 
-<!--
-➡️ TODO Link to try now
+Both approaches are integral parts of EMF Cloud, offering distinct solutions tailored to different modeling requirements. Please use the table of contents on the left to navigate to the respective topics where you can find detailed guidance on implementation, customization, and best practices.
 
-➡️ TODO Link to source code and a good entry point to look at the language contribution
--->
+## Summary of Approaches
 
-We will provide a live demo as well as a link to GitHub as soon as the code is published.
+This summary table encapsulates the key differences between the two approaches. The Model Hub approach is ideal for scenarios demanding robust, command-based model management, while the Langium-Based DSL approach excels in projects that require advanced textual language support and full Language Server Protocol (LSP) integration. For further guidance on integrating and customizing these approaches, please consult the dedicated sections in our documentation.
 
-In the remainder of this documentation, we use the Coffee Editor NG as an example to demonstrate how certain capabilities can be customized, extended or exchanged with other implementations.
-Please use the table of contents on the left to navigate to the respective topic of interest.
+Below is a summary table highlighting the key differences between the two approaches:
+
+| Feature Category              | Model Hub                                     | Langium-Based DSL                           |
+|-------------------------------|-----------------------------------------------|---------------------------------------------|
+| Core Model Management         | ✓ Comprehensive management with command-based editing and undo/redo | ✓ Includes DSL-specific model management     |
+| Model API                     | Advanced and flexible                         | Basic integration for DSL                    |
+| Command-based Editing         | ✓ Built-in support for complex model edits    | -                                          |
+| Multi-Client Support          | ✓ Real-time updates and coordination          | ✓ Supports multi-client scenarios            |
+| Validation Framework          | Comprehensive model validation                | DSL-based text validation                    |
+| Persistence Layer             | Customizable strategies                       | DSL-driven approaches                        |
+| Language Infrastructure (LSP) | -                                             | ✓ Full Language Server Protocol support     |
+| Reference Resolution          | Basic built-in resolution                     | Advanced symbol and reference management    |
