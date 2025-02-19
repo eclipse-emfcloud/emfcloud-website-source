@@ -39,22 +39,22 @@ Similarly, we can re-use the generated Langium infrastructure to store the model
 Furthermore, we need to ensure that anytime a model is updated on the Langium side we properly update the model on the Model Hub side.
 We achieve that by installing a listener on the Langium side and using the Model Manager from the Model Hub to execute a PATCH command that updates the model in the Model Hub.
 
-For the Coffee Model, the persistence contribution may look something like this:
+For the Custom Model, the persistence contribution may look something like this:
 
 ```javascript
 
-class CoffeePersistence implements ModelPersistenceContribution<string, CoffeeModelRoot> {
+class CustomePersistence implements ModelPersistenceContribution<string, CustomModelRoot> {
   modelHub: ModelHub;
   modelManager: ModelManager<string>;
 
-  constructor(private modelServer: CoffeeModelServer) {
+  constructor(private modelServer: CustomModelServer) {
   }
 
   async canHandle(modelId: string): Promise<boolean> {
-    return modelId.endsWith('.coffee');
+    return modelId.endsWith('.custom');
   }
 
-  async loadModel(modelId: string): Promise<CoffeeModelRoot> {
+  async loadModel(modelId: string): Promise<CustomModelRoot> {
     const model = await this.modelServer.getModel(modelId);
     if (model === undefined) {
       throw new Error('Failed to load model: ' + modelId);
@@ -72,13 +72,13 @@ class CoffeePersistence implements ModelPersistenceContribution<string, CoffeeMo
         const updateCommand = new PatchCommand('Update Derived Values', currentModel, diff);
         commandStack.execute(updateCommand);
       } catch (error) {
-        console.error('Failed to synchronize model from CoffeeLanguageService', error);
+        console.error('Failed to synchronize model from CustomLanguageService', error);
       }
     });
     return model;
   }
 
-  async saveModel(modelId: string, model: CoffeeModelRoot): Promise<boolean> {
+  async saveModel(modelId: string, model: CustomModelRoot): Promise<boolean> {
     try {
       await this.modelServer.save(modelId, model);
     } catch (error) {

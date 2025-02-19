@@ -10,7 +10,7 @@ At the center of EMF Cloud, there is a model management component, which provide
 This model management component is called [*Model Hub* (Typescript)]({{< relref "modelHub" >}}).
 
 <div style="text-align:center; margin-bottom:20px">
-  <img src="../../images/modelhub.svg" alt="Overview of the Model Hub" width="70%" />
+  <img src="../../images/overviewModelAPI.svg" alt="Overview of the Model API" width="70%" />
 </div>
 
 The Model Hub is an extensible central model management component, which offers a common API to all clients for accessing and interacting with models.

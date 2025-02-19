@@ -7,15 +7,15 @@ weight = 190
 +++
 
 <div style="text-align:center; margin-top:50px; margin-bottom:50px">
-  <img src="../../images/diagramanimated.gif" alt="Overview of the Model Hub for the Coffee Editor NG" width="80%" />
+  <img src="../../images/diagramanimated.gif" alt="Overview of GLSP with Model Hub" width="80%" />
 </div>
 
 ## Introduction
 
 The foundation of implementing diagram editors is the [GLSP framework](https://eclipse.dev/glsp/).
-This guide will give an introduction to connect GLSP diagram editors with the [ModelHub](https://github.com/eclipsesource/coffee-editor/tree/main/emfcloud-modelmanager/model-service-theia).
-Specifically, the GLSP diagram editor makes use of the `ModelHub` and the interfaces of the `ModelService` like the `CoffeeModelServer` or the `CoffeeModelService` for seamless integration and outsourced data management.
-Furthermore, specific examples of the [Coffee Editor NG implementation](#coffee-editor-ng-example) will be given as a guideline.
+This guide will give an introduction to connect GLSP diagram editors with the [ModelHub](https://github.com/eclipse-emfcloud/modelhub).
+Specifically, the GLSP diagram editor makes use of the `ModelHub` and the interfaces of the `ModelService` for seamless integration and outsourced data management.
+Furthermore, a specific [example](#example) will be given as a guideline.
 
 ## ModelHub Integration
 
@@ -37,14 +37,14 @@ In our case all of these responsibilites are outsourced to the `ModelHub`, namel
 
 A graph model factory produces a graph model from the source model contained in the model state.
 
-In this case, we also use the source model from the model state to translate the source model into `GModelRoot`. For more complex translations, e.g. for creating edges, the `CoffeeModelServer` is used to resolve references.
+In this case, we also use the source model from the model state to translate the source model into `GModelRoot`. For more complex translations, e.g. for creating edges, the `CustomModelService` is used to resolve references.
 
 ### Model Operations
 
-To outsource the responsibility of executing operations directly on the model, operations should be forwarded to the [CoffeeModelService]({{< relref  "/editingDomain#model-service-implementation" >}}).
-The `CoffeeModelService` offers tailored functions to manipulate the model, e.g. dedicated create or delete functions that take as arguments the specific diagram data like the position on the canvas.
+To outsource the responsibility of executing operations directly on the model, operations should be forwarded to the [CustomModelService]({{< relref  "/editingDomain#model-service-implementation" >}}).
+The `CustomModelService` offers tailored functions to manipulate the model, e.g. dedicated create or delete functions that take as arguments the specific diagram data like the position on the canvas.
 
-## Coffee Editor NG Example
+## Example
 
 </br>
 
@@ -54,10 +54,10 @@ The `WorkflowModelStorage` is responsible for loading and saving source models v
 
 #### Load the source model
 
-To load the source model for further usage and transformation into the graphical GModel, we fetch the `CoffeeModelRoot` from the `modelHub` as follows:
+To load the source model for further usage and transformation into the graphical GModel, we fetch the `CustomModelRoot` from the `modelHub` as follows:
 
 ```typescript
-this.modelHub.getModel<CoffeeModelRoot>(modelUri);
+this.modelHub.getModel<CustomModelRoot>(modelUri);
 ```
 
 <details><summary>Detailed implementation</summary>
@@ -65,11 +65,11 @@ this.modelHub.getModel<CoffeeModelRoot>(modelUri);
 ```typescript
   async loadSourceModel(action: RequestModelAction): Promise<void> {
     const modelUri = this.getUri(action);
-    const coffeeModel = await this.modelHub.getModel<CoffeeModelRoot>(modelUri);
-    if (!coffeeModel || !isMachine(coffeeModel) || (isMachine(coffeeModel) && coffeeModel.workflows.length < 1)) {
-      throw new GLSPServerError('Expected Coffee Model with at least one workflow');
+    const customModel = await this.modelHub.getModel<CustomModelRoot>(modelUri);
+    if (!customModel && customModel.workflows.length < 1)) {
+      throw new GLSPServerError('Expected Model with at least one workflow');
     }
-    this.modelState.setSemanticRoot(modelUri, coffeeModel);
+    this.modelState.setSemanticRoot(modelUri, customModel);
     this.subscribeToChanges(modelUri);
   }
 ```
@@ -94,8 +94,8 @@ this.subscription.onModelChanged = async (modelId: string, newModel: object) => 
 private subscribeToChanges(modelUri: string): void {
     this.subscription = this.modelHub.subscribe(modelUri);
     this.subscription.onModelChanged = async (modelId: string, newModel: object) => {
-      if (!newModel || !isMachine(newModel) || newModel.workflows.length < 1) {
-        throw new GLSPServerError('Expected Coffee Model with at least one workflow');
+      if (!newModel || newModel.workflows.length < 1) {
+        throw new GLSPServerError('Expected Model with at least one workflow');
       }
       this.modelState.setSemanticRoot(modelId, newModel);
       const actions = await this.submissionHandler.submitModel();
@@ -133,20 +133,20 @@ async saveSourceModel(action: SaveModelAction): Promise<void> {
 
 </br>
 
-### CoffeeGModelFactory
+### CustomGModelFactory
 
-To resolve references, such as edge sources or targets, we use the `CoffeeModelServer` to get the resolved data needed to properly translate the source model into a `GModelRoot`.
+To resolve references, such as edge sources or targets, we use the `CustomModelServer` to get the resolved data needed to properly translate the source model into a `GModelRoot`.
 
 
-This shows one flow from the example source model `superbrewer3000.coffee`:
+This shows one example flow:
 
 ```json
   ...
   {
     "id": "checkWaterToDecision",
     "type": "Flow",
-    "source": "SuperBrewer3000.BrewingFlow.Check Water",
-    "target": "SuperBrewer3000.BrewingFlow.MyDecision"
+    "source": "Example.BrewingFlow.Check Water",
+    "target": "Example.BrewingFlow.MyDecision"
   },
   ...
 ```
@@ -154,8 +154,8 @@ This shows one flow from the example source model `superbrewer3000.coffee`:
 The following snippet shows how to create a GEdge from such a flow object:
 
 ```typescript
-@inject(CoffeeModelServer)
-  protected modelServer: CoffeeModelServer;
+  @inject(CustomModelServer)
+  protected modelServer: CustomModelServer;
 
   ...
 
@@ -173,19 +173,19 @@ The following snippet shows how to create a GEdge from such a flow object:
 
 ```
 
-### Model Operations via the CoffeeModelService
+### Model Operations via the CustomModelService
 
-To showcase how to forward model operations to the [CoffeeModelService]({{< relref  "/editingDomain#model-service-implementation" >}}),
+To showcase how to forward model operations to the [CustomModelService]({{< relref  "/editingDomain#model-service-implementation" >}}),
 let's take a look at the `CreateWorkflowNodeOperationHandler`.
-This handler is an abstract node creation operation handler that is used to create all possible types of nodes supported by the Coffee diagram editor, e.g. manual tasks or fork nodes.
+This handler is an abstract node creation operation handler that is used to create all possible types of nodes supported by your diagram editor.
 
-We wrap the model operation in a `GModelRecordingCommand` - in our case a customized `CoffeeModelCommand` that aligns the customized types of the `GModelState` for example.
-The model operation itself is basically the operation data collection we get from the diagram editor, which we hand over to the `CoffeeModelService`.
+We wrap the model operation in a `GModelRecordingCommand` - in our case a customized `CustomModelCommand` that aligns the customized types of the `GModelState` for example.
+The model operation itself is basically the operation data collection we get from the diagram editor, which we hand over to the `CustomModelService`.
 The modelService provides a dedicated function to create a new node, expecting the diagram editor's specific data like position and type of node.
 
 ```typescript
   override createCommand(operation: CreateNodeOperation): MaybePromise<Command | undefined> {
-    return new CoffeeModelCommand(
+    return new CustomModelCommand(
       this.modelState,
       this.serializer,
       () => this.createWorkflowNode(operation)
@@ -194,7 +194,7 @@ The modelService provides a dedicated function to create a new node, expecting t
 
   async createWorkflowNode(operation: CreateNodeOperation): Promise<void> {
     const container = this.modelState.semanticRoot;
-    const modelService = this.modelHub.getModelService<CoffeeModelService>(COFFEE_SERVICE_KEY);
+    const modelService = this.modelHub.getModelService<CustomModelService>(CUSTOM_SERVICE_KEY);
     const modelId = this.modelState.semanticUri;
     await modelService?.createNode(modelId, container.workflows[0], {
       posX: this.getLocation(operation)?.x ?? Point.ORIGIN.x,
@@ -205,5 +205,3 @@ The modelService provides a dedicated function to create a new node, expecting t
 ```
 
 Similarly, this is the way to implement model operations, also for other diagram editor use cases like deleting model elements, resizing or repostioning model elements or edit model element labels.
-
-

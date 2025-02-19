@@ -16,9 +16,9 @@ In Langium, a grammar is defined in a dedicated `.langium` file for which a VS C
 Let's assume we want to have a simple grammar that follows a JSON syntax:
 
 ```ts
-grammar CoffeeLanguage                    // grammar name
+grammar CustomLanguage                    // grammar name
 
-entry CoffeeModelRoot:                    // entry rule for the parser, i.e., document root
+entry CustomModelRoot:                    // entry rule for the parser, i.e., document root
     Machine | WorkflowConfig;             // sequence of valid tokens → abstract syntax
 
 fragment IdentifiableFragment:            // re-usable fragment

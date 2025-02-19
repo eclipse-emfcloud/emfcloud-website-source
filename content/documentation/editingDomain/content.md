@@ -16,13 +16,13 @@ As seen in the [ModelHub section]({{< relref  "modelhub" >}}), the ModelServiceC
 
 ```ts
 @injectable()
-export class CoffeeModelServiceContribution extends AbstractModelServiceContribution {
-  private modelService: CoffeeModelService;
+export class CustomModelServiceContribution extends AbstractModelServiceContribution {
+  private modelService: CustomModelService;
 
   @postConstruct()
   protected init(): void {
     this.initialize({
-      id: COFFEE_SERVICE_KEY
+      id: CUSTOM_SERVICE_KEY
     })
   }
 
@@ -34,7 +34,7 @@ export class CoffeeModelServiceContribution extends AbstractModelServiceContribu
     super.setModelManager(modelManager);
     // Forward the model manager to our model service, so it can actually
     // execute some commands.
-    this.modelService = new CoffeeModelServiceImpl(modelManager);
+    this.modelService = new CustomModelServiceImpl(modelManager);
   }
 }
 ```
@@ -42,20 +42,20 @@ export class CoffeeModelServiceContribution extends AbstractModelServiceContribu
 Then, the ModelService implementation can access the model and execute Commands on the ModelManager:
 
 ```ts
-export class CoffeeModelServiceImpl implements CoffeeModelService {
+export class CustomModelServiceImpl implements CustomModelService {
   constructor(private modelManager: ModelManager<string>) {}
 
   // clients could directly access the model from the Model Hub, but 
   // custom ModelService APIs can also provide a convenience method:
-  async getCoffeeModel(modelUri: string): Promise<CoffeeModelRoot | undefined> {
+  async getCustomModel(modelUri: string): Promise<CustomModelRoot | undefined> {
     const key = getModelKey(modelUri);
-    return this.modelManager.getModel<CoffeeModelRoot>(key);
+    return this.modelManager.getModel<CustomModelRoot>(key);
   }
 
   // [...]
 
   async createNode(modelUri: string, parent: string | Workflow, args: CreateNodeArgs): Promise<PatchResult> {
-    const model = await this.getCoffeeModel(modelUri);
+    const model = await this.getCustomModel(modelUri);
     if (model === undefined) {
       return {
         success: false,
@@ -112,18 +112,18 @@ export class CoffeeModelServiceImpl implements CoffeeModelService {
 There are several ways to create patch commands. In the above example, we created the JSON Patch manually, using the JSON pointer path from the parent, and adding a value. However, using a JSON Patch Library (such as `fast-json-patch`, although any similar library can be used), one could generate the patch instead:
 
 ```ts
-export class CoffeeModelServiceImpl implements CoffeeModelService {
+export class CustomModelServiceImpl implements CustomModelService {
 
   // [...]
 
   async createNode(modelUri: string, parentPath: string): Promise<PatchResult> {
-      const model = await this.getCoffeeModel(modelUri);
+      const model = await this.getCustomModel(modelUri);
 
       // [...]
 
       // We are not allowed to edit the `model` object directly. Make a copy, 
       // and then we'll use fast-json-patch to generate a diff-patch.
-      const updatedModel = deepClone(model) as CoffeeModelRoot;
+      const updatedModel = deepClone(model) as CustomModelRoot;
       const updatedWorkflow = getValueByPointer(updatedModel, parentPath);
       if (!isWorkflow(parentElement)) {
         throw new Error(`Parent element is not a Workflow: ${parentPath}`);
@@ -150,12 +150,12 @@ export class CoffeeModelServiceImpl implements CoffeeModelService {
 The ModelManager framework also provides a convenience method to create a PatchCommand that will directly edit the JSON Model, using a Model Updater:
 
 ```ts
-export class CoffeeModelServiceImpl implements CoffeeModelService {
+export class CustomModelServiceImpl implements CustomModelService {
 
   // [...]
 
   async createNode(modelUri: string, parentPath: string): Promise<PatchResult> {
-      const model = await this.getCoffeeModel(modelUri);
+      const model = await this.getCustomModel(modelUri);
 
       // create a PatchCommand using a Model Updater. This allows us to directly
       // edit the model, without having to deal with JSON Patches at all.

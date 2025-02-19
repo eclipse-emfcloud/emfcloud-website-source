@@ -8,15 +8,16 @@ weight = 130
 
 EMF Cloud provides two complementary approaches for building modeling tools. Each approach is tailored to specific requirements and is integrated as a core part of the framework.
 
+<div style="text-align:center; margin-bottom:20px">
+  <img src="../../images/modelingtools.svg" alt="Overview of the Model Hub" width="70%" />
+</div>
+
 ## Model Hub Approach
 
 This approach focuses on comprehensive model management. It is built around a central Model Hub that offers robust capabilities such as command-based editing, state management with undo/redo, and persistence. This is ideal for scenarios where a powerful environment for managing complex models is required. Detailed examples for this approach can be found in the Model Hub repository:
 
 https://github.com/eclipse-emfcloud/modelhub/tree/main/examples/theia
 
-<div style="text-align:center; margin-bottom:20px">
-  <img src="../../images/coffeeeditormodelhub.svg" alt="Overview of the Model Hub" width="70%" />
-</div>
 
 ## Langium-Based DSL Approach
 
