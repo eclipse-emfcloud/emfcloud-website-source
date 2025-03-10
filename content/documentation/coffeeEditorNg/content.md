@@ -6,7 +6,7 @@ weight = 130
   sticky = true
 +++
 
-EMF Cloud provides two complementary approaches for building modeling tools. Each approach is tailored to specific requirements and is integrated as a core part of the framework.
+EMF Cloud provides two complementary approaches for implementing the model management. Each approach is tailored to specific requirements of modeling solutions and is integrated as a core part of the framework. On this page we provide an overview of both approaches and give recommendations which approach is the right for your modeling tool.
 
 <div style="text-align:center; margin-bottom:20px">
   <img src="../../images/modelingtools.svg" alt="Overview of the Model Hub" width="70%" />
@@ -14,24 +14,25 @@ EMF Cloud provides two complementary approaches for building modeling tools. Eac
 
 ## Model Hub Approach
 
-This approach focuses on comprehensive model management. It is built around a central Model Hub that offers robust capabilities such as command-based editing, state management with undo/redo, and persistence. This is ideal for scenarios where a powerful environment for managing complex models is required. Detailed examples for this approach can be found in the Model Hub repository:
+This approach focuses on a model-first, command-based model management. It is built around a central Model Hub that offers robust capabilities such as command-based editing, state management with undo/redo, and persistence. This is ideal for scenarios where fine-grained change control and model-oriented clients are most vital for your modeling tool. Detailed examples for this approach can be found in the Model Hub repository:
 
 https://github.com/eclipse-emfcloud/modelhub/tree/main/examples/theia
 
 
 ## Langium-Based DSL Approach
 
-This approach is designed for applications that require dedicated DSL support. Leveraging Langium, it provides advanced textual language features including parsing, reference resolution, and language server integration. This path is ideal for scenarios where the development of a domain-specific language is crucial. A prominent example demonstrating this approach is the CrossModel application, available at:
+This approach is designed for modeling tools that are built around textual domain-specific languages. Leveraging Langium, it provides advanced textual language features including parsing, reference resolution, workspace indexing, and language server integration, but extends it with a modeling-tool-oriented API to simplify accessing the models via an API for non-textual editors. This path is ideal for scenarios dealing with large interconnected models that are spread across many files and that require full control over the underlying textual format. For an example application with this architecture, please refer to the CrossModel tool, available at:
 
 https://github.com/CrossBreezeNL/crossmodel
 
-Both approaches are integral parts of EMF Cloud, offering distinct solutions tailored to different modeling requirements. Please use the table of contents on the left to navigate to the respective topics where you can find detailed guidance on implementation, customization, and best practices.
+Most modeling tools can be built with either of the two approaches, however, many modeling tools have rather a text-file-oriented model management perspective or a model-oriented model management perspective, at least they tend in one or the other direction. Tending in the one or the other direction makes certain implementation strategies a more natural fit.
+
+Instead of enforcing one approach for all modeling tools, EMF Cloud embraces these differences and provides a set of different components for both implementation strategies. Please use the table of contents on the left to navigate to the respective topics where you can find detailed guidance on implementation, customization, and best practices.
 
 ## Summary of Approaches
 
-This summary table encapsulates the key differences between the two approaches. The Model Hub approach is ideal for scenarios demanding robust, command-based model management, while the Langium-Based DSL approach excels in projects that require advanced textual language support and full Language Server Protocol (LSP) integration. For further guidance on integrating and customizing these approaches, please consult the dedicated sections in our documentation.
+The table below highlights the key differences between the two approaches. For further guidance on integrating and customizing these approaches, please consult the dedicated sections in our documentation.
 
-Below is a summary table highlighting the key differences between the two approaches:
 
 | Feature Category              | Model Hub                                     | Langium-Based DSL                           |
 |-------------------------------|-----------------------------------------------|---------------------------------------------|

@@ -8,7 +8,7 @@ weight = 120
 
 # Getting Started
 
-Welcome to EMF Cloud. Our framework provides two distinct approaches to best accommodate your project's needs. Choose the demo that aligns with your requirements:
+EMF Cloud provides two approaches to best accommodate your project's needs. Choose the path that aligns best with your requirements.
 
 ## Model Hub Approach
 
@@ -18,7 +18,7 @@ Designed for projects that require robust, command-based model management with f
 
 ## Langium-Based DSL Approach
 
-Tailored for projects that benefit from advanced textual DSL support with integrated Language Server Protocol (LSP) features. This approach excels in delivering a rich editing experience with enhanced language tooling.
+Tailored for projects that benefit from advanced textual DSL support with integrated Language Server Protocol (LSP) features, scaleable cross-reference and workspace indexing support. This approach excels in delivering a modeling solution for large interconnected models that are spread across many files, with full control over the underlying textual format.
 
 → Check out the [CrossModel Demo](https://github.com/CrossBreezeNL/crossmodel) to see this approach in action.
 
