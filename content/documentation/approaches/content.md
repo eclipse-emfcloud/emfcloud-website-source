@@ -33,14 +33,55 @@ Instead of enforcing one approach for all modeling tools, EMF Cloud embraces the
 
 The table below highlights the key differences between the two approaches. For further guidance on integrating and customizing these approaches, please consult the dedicated sections in our documentation.
 
+<table>
+  <thead>
+    <tr>
+      <th>Feature Category</th>
+      <th>Model Hub</th>
+      <th>Langium-Based DSL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Core Model Management</td>
+      <td>✓ Comprehensive management with command-based editing and undo/redo</td>
+      <td>✓ Includes DSL-specific model management</td>
+    </tr>
+    <tr>
+      <td>Model API</td>
+      <td>Advanced and flexible</td>
+      <td>Basic integration for DSL</td>
+    </tr>
+    <tr>
+      <td>Command-based Editing</td>
+      <td>✓ Built-in support for complex model edits</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Multi-Client Support</td>
+      <td>✓ Real-time updates and coordination</td>
+      <td>✓ Supports multi-client scenarios</td>
+    </tr>
+    <tr>
+      <td>Validation Framework</td>
+      <td>Comprehensive model validation</td>
+      <td>DSL-based text validation</td>
+    </tr>
+    <tr>
+      <td>Persistence Layer</td>
+      <td>Customizable strategies</td>
+      <td>DSL-driven approaches</td>
+    </tr>
+    <tr>
+      <td>Language Infrastructure (LSP)</td>
+      <td>-</td>
+      <td>✓ Full Language Server Protocol support</td>
+    </tr>
+    <tr>
+      <td>Reference Resolution</td>
+      <td>Basic built-in resolution</td>
+      <td>Advanced symbol and reference management</td>
+    </tr>
+  </tbody>
+</table>
 
-| Feature Category              | Model Hub                                     | Langium-Based DSL                           |
-|-------------------------------|-----------------------------------------------|---------------------------------------------|
-| Core Model Management         | ✓ Comprehensive management with command-based editing and undo/redo | ✓ Includes DSL-specific model management     |
-| Model API                     | Advanced and flexible                         | Basic integration for DSL                    |
-| Command-based Editing         | ✓ Built-in support for complex model edits    | -                                          |
-| Multi-Client Support          | ✓ Real-time updates and coordination          | ✓ Supports multi-client scenarios            |
-| Validation Framework          | Comprehensive model validation                | DSL-based text validation                    |
-| Persistence Layer             | Customizable strategies                       | DSL-driven approaches                        |
-| Language Infrastructure (LSP) | -                                             | ✓ Full Language Server Protocol support     |
-| Reference Resolution          | Basic built-in resolution                     | Advanced symbol and reference management    |
