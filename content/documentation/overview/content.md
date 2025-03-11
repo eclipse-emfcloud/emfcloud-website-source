@@ -7,7 +7,7 @@ weight = 110
 +++
 
 At the center of EMF Cloud, there is a model management component, which provides consistent model access, as well as an interface for manipulating models and listening to model changes across various editors, views, and components interacting with a model.
-This model management component is called [*Model Hub* (Typescript)]({{< relref "modelHub" >}}).
+This model management component is called [*Model Hub* (Typescript)]({{< relref "approaches" >}}).
 
 <div style="text-align:center; margin-bottom:20px">
   <img src="../../images/overviewModelAPI.svg" alt="Overview of the Model API" width="70%" />

@@ -14,20 +14,21 @@ EMF Cloud provides two complementary approaches for implementing the model manag
 
 ## Model Hub Approach
 
-This approach focuses on a model-first, command-based model management. It is built around a central Model Hub that offers robust capabilities such as command-based editing, state management with undo/redo, and persistence. This is ideal for scenarios where fine-grained change control and model-oriented clients are most vital for your modeling tool. Detailed examples for this approach can be found in the Model Hub repository:
+This approach focuses on a model-first, command-based model management. It is built around a central Model Hub that offers robust capabilities such as command-based editing, state management with undo/redo, and persistence. This is ideal for scenarios where fine-grained change control and model-oriented clients are most vital for your modeling tool. 
 
-https://github.com/eclipse-emfcloud/modelhub/tree/main/examples/theia
-
+For more details, see the [Model Hub Approach]({{< relref "/modelHubApproach" >}}) section.
 
 ## Langium-Based DSL Approach
 
-This approach is designed for modeling tools that are built around textual domain-specific languages. Leveraging Langium, it provides advanced textual language features including parsing, reference resolution, workspace indexing, and language server integration, but extends it with a modeling-tool-oriented API to simplify accessing the models via an API for non-textual editors. This path is ideal for scenarios dealing with large interconnected models that are spread across many files and that require full control over the underlying textual format. For an example application with this architecture, please refer to the CrossModel tool, available at:
+This approach is designed for modeling tools that are built around textual domain-specific languages. Leveraging Langium, it provides advanced textual language features including parsing, reference resolution, workspace indexing, and language server integration, but extends it with a modeling-tool-oriented API to simplify accessing the models via an API for non-textual editors. 
 
-https://github.com/CrossBreezeNL/crossmodel
+For more details, see the [Langium-Based DSL Approach]({{< relref "/langiumApproach" >}}) section.
+
+## Selecting the Right Approach
 
 Most modeling tools can be built with either of the two approaches, however, many modeling tools have rather a text-file-oriented model management perspective or a model-oriented model management perspective, at least they tend in one or the other direction. Tending in the one or the other direction makes certain implementation strategies a more natural fit.
 
-Instead of enforcing one approach for all modeling tools, EMF Cloud embraces these differences and provides a set of different components for both implementation strategies. Please use the table of contents on the left to navigate to the respective topics where you can find detailed guidance on implementation, customization, and best practices.
+Instead of enforcing one approach for all modeling tools, EMF Cloud embraces these differences and provides a set of different components for both implementation strategies. 
 
 ## Summary of Approaches
 
@@ -84,4 +85,3 @@ The table below highlights the key differences between the two approaches. For f
     </tr>
   </tbody>
 </table>
-
