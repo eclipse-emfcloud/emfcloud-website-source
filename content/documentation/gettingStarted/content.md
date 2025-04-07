@@ -24,6 +24,6 @@ Tailored for projects that benefit from advanced textual DSL support with integr
 
 ---
 
-For a detailed comparison of the two approaches and guidance on when to use which, please refer to our [EMF Cloud Approaches Documentation](../coffeeEditorNg/content.md).
+For a detailed comparison of the two approaches and guidance on when to use which, please refer to our [EMF Cloud Approaches Documentation](../approaches).
 
 Get started by selecting the demo that best matches your project’s requirements.

@@ -509,13 +509,13 @@ const createArgs = {
 await customModelService.createNode(modelUri, customModel.workflows[0], createArgs);
 ```
 
-## Tree Editor Implementation
+## Form Implementation
 
 <div style="text-align:center; margin-bottom:20px">
-  <img src="../../images/treeeditor.png" alt="Overview of the Tree Editor with Model Hub" width="80%" />
+  <img src="../../images/treeeditor.png" alt="Overview of a Form with Model Hub" width="80%" />
 </div>
 
-Create sophisticated tree-based editors in Theia by leveraging the powerful combination of [Theia Tree Editor](https://github.com/eclipse-emfcloud/theia-tree-editor), [JSON Forms](https://jsonforms.io), and the [ModelHub](https://github.com/eclipse-emfcloud/modelhub). This integration provides a robust foundation for creating customized tree editors with seamless data management through the Frontend Model Hub.
+Create sophisticated form based editors in Theia by leveraging [JSON Forms](https://jsonforms.io) and [ModelHub](https://github.com/eclipse-emfcloud/modelhub). This integration provides a robust foundation for creating customized form editors with seamless data management through the Frontend Model Hub.
 
 ### Overview
 
@@ -523,34 +523,34 @@ The Theia Tree Editor framework provides extensive base classes and service defi
 
 ### Integrating ModelHub
 
-Customizing the Theia Tree Editor involves two key aspects:
+Creating a Form Editor involves two key aspects:
 1. **Data provisioning**: Use the `FrontendModelHub` to fetch and manage models
 2. **Change synchronization**: Implement a `ModelService` to propagate editor changes back to the ModelHub
 
-Achieve this integration by injecting the `FrontendModelHub` into your constructor and using it within the `init` method to monitor model changes and update the tree accordingly. Implement the `handleFormUpdate` method to capture and apply data changes to the ModelHub-tracked model.
+Achieve this integration by injecting the `FrontendModelHub` into your constructor and using it within the `init` method to monitor model changes and update the form accordingly. Implement the `handleFormUpdate` method to capture and apply data changes to the ModelHub-tracked model.
 
 ### Example
 
-Your widget should extend the `NavigatableTreeEditorWidget` (similar to [ResourceTreeEditorWidget](https://github.com/eclipse-emfcloud/theia-tree-editor/blob/master/theia-tree-editor/src/browser/resource/resource-tree-editor-widget.ts)), and integrate ModelHub by adding a listener within the `init` method:
+Your widget should integrate the ModelHub by adding a listener within the `init` method:
 
 ```ts
 this.modelHub
   .subscribe(this.getResourceUri()?.toString() ?? '')
   .then((subscription) => {
     subscription.onModelChanged = (_modelId, model, _delta) => {
-      this.updateTree(model);
+      this.updateForm(model);
     };
   });
 ```
 
-This listener ensures your tree editor stays synchronized with any model changes in real-time.
+This listener ensures your form editor stays synchronized with any model changes in real-time.
 
-Additionally, implement the `handleFormUpdate` method to propagate editor changes to the model:
+Additionally, implement a `handleFormUpdate` method to propagate editor changes to the model:
 
 ```ts
-protected override async handleFormUpdate(data: any, node: TreeEditor.Node): Promise<void> {
+protected override async handleFormUpdate(data: any): Promise<void> {
   const result = await this.modelService.edit(this.getResourceUri()?.toString() ?? '', data);
-  this.updateTree(result.data);
+  this.updateForm(result.data);
 }
 ```
 
