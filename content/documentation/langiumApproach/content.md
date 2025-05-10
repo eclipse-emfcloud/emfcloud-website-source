@@ -6,12 +6,12 @@ weight = 150
   sticky = true
 +++
 
-# Unleashing the Power of Textual DSLs with Langium
+# Unleashing the Power of Textual DSLs
 
-The Langium-Based DSL Approach offers a sophisticated foundation for building modeling tools centered around textual domain-specific languages. This approach harnesses the advanced capabilities of Langium—providing professional-grade language features such as parsing, reference resolution, workspace indexing, and language server integration—while extending it with a purpose-built API designed specifically for modeling tools. The result is a seamless experience for developers and users working with models through both textual and visual interfaces.
+The Langium-Based DSL Approach offers a sophisticated foundation for building modeling tools centered around textual domain-specific languages. This approach harnesses the advanced capabilities of Langium — providing professional-grade language features such as parsing, reference resolution, workspace indexing, and language server integration — while extending it with a purpose-built API designed specifically for modeling tools. The result is a seamless experience for developers and users working with models through both textual and visual interfaces.
 
 <div style="text-align:center; margin-bottom:20px">
-  <img src="../../images/OverviewLangiunApproach.svg" alt="Overview of Langium Approach" width="70%" />
+  <img src="../../images/OverviewLangiumApproach.svg" alt="Overview of Langium Approach" width="70%" />
 </div>
 
 ## Core Features and Benefits
@@ -155,7 +155,7 @@ The connection between the Model Hub ecosystem and Langium is our comprehensive 
 
 2. **Model Converter**: Transforms between the Langium-based AST model and the client-facing JSON model, resolving cycles and handling cross-references to ensure complete bidirectional transformation.
 
-By using these components, implementing a language-specific `ModelServiceContribution` becomes straightforward—simply connect your Langium services with the Model Hub services and expose any additional functionality through your Model Service API.
+By using these components, implementing a language-specific `ModelServiceContribution` becomes straightforward — simply connect your Langium services with the Model Hub services and expose any additional functionality through your Model Service API.
 
 ### Model Persistence Implementation
 
@@ -278,12 +278,12 @@ The integration of diagram editors with Langium-based DSLs combines the intuitiv
 A well-designed integration between GLSP diagram editors and Langium includes these key components:
 
 1. **Unified Language Server**: The Langium language server provides the authoritative model data and manages modifications to the underlying textual representation
-2. **Bidirectional Transformation**: Specialized components translate between the textual DSL structure and the graphical model representation
+2. **Bidirectional Transformation**: Specialized components translate between the textual DSL structure (AST) and the graphical model representation
 3. **Real-time Synchronization**: Changes in either the diagram or text editor are instantly reflected across all views of the model
 
 ### Implementation Guidelines with Code Examples
 
-#### Establishing the Foundation
+#### Establishing the Connection
 
 Connect your GLSP diagram editor with a Langium-based DSL using dependency injection:
 
@@ -304,174 +304,17 @@ Transform Langium's textual representation into a visual diagram:
 ```typescript
 async loadSourceModel(action: RequestModelAction): Promise<void> {
   const modelUri = this.getUri(action);
-  const document = await this.documentFactory.getOrCreateDocument(modelUri);
-  const model = document.parseResult.value;
+  const model = await this.modelAPI.get(modelUri);
   
   // Store the model in GLSP's model state
   this.modelState.setSemanticRoot(modelUri, model);
-  this.setupSynchronization(modelUri, document);
-}
-```
-
-#### Maintaining Real-time Synchronization
-
-Ensure the diagram stays in sync with text changes:
-
-```typescript
-private setupSynchronization(modelUri: string, document: LangiumDocument): void {
-  const workspace = this.languageServices.shared.workspace;
-  
-  workspace.onDidChangeTextDocument.event(event => {
-    if (event.document.uri.toString() === modelUri) {
-      // Update model state with new model
-      const updatedModel = event.document.parseResult.value;
-      this.modelState.setSemanticRoot(modelUri, updatedModel);
-      
-      // Trigger diagram update
-      this.submissionHandler.submitModel().then(actions => {
-        this.actionDispatcher.dispatchAll(actions);
-      });
-    }
-  });
-}
-```
-
-#### Translating Visual Changes to Text
-
-Convert diagram operations into precise text edits:
-
-```typescript
-async handleCreateNodeOperation(operation: CreateNodeOperation): Promise<void> {
-  const document = await this.documentFactory.getOrCreateDocument(this.modelState.semanticUri);
-  const textEdits: TextEdit[] = [];
-  
-  // Create appropriate text edit for the new node
-  const nodeTextTemplate = this.generateNodeTextTemplate(operation);
-  const insertPosition = this.determineInsertPosition(document);
-  
-  textEdits.push({
-    range: insertPosition,
-    newText: nodeTextTemplate
-  });
-  
-  // Apply text edits via language server
-  const workspace = this.languageServices.shared.workspace;
-  await workspace.applyEdit({
-    documentChanges: [{
-      textDocument: { uri: document.uri.toString(), version: document.version },
-      edits: textEdits
-    }]
+  this.modelAPI.subscribe(modelUri, () => {
+    this.actionDispatcher.dispatchAll(actions);
   });
 }
 ```
 
 For a complete implementation of this integration pattern, refer to the CrossModel project:
-
-https://github.com/CrossBreezeNL/crossmodel
-
-## Tree Editor: Structured Model Navigation
-<div style="text-align:center; margin-bottom:20px">
-  <img src="../../images/treeeditor.png" alt="Tree Editor Concept" width="80%" />
-</div>
-
-### Intuitive Hierarchical Model Interaction
-
-Tree-based editors provide a structured, hierarchical view of models that complements the textual representation managed by Langium. This approach delivers an accessible way to navigate complex model structures while maintaining the precision of the underlying DSL. By integrating the [Theia Tree Editor](https://github.com/eclipse-emfcloud/theia-tree-editor) framework with Langium's language services, you can offer users multiple perspectives on the same model.
-
-### Strategic Integration Architecture
-
-The tree editor integration with Langium involves these key components:
-
-1. **Direct Language Service Access**: Seamless connection to Langium language services for real-time model access
-2. **Synchronized Document Management**: Automatic updates to keep the tree view consistent with textual changes
-3. **Bidirectional Edit Operations**: Precise mapping of tree operations to textual edits and vice versa
-
-### Implementation Blueprint
-
-#### Initial Configuration
-
-Set up your tree editor with Langium service integration:
-
-```typescript
-@inject(LangiumServices) 
-protected languageServices: LangiumServices;
-
-@inject(LangiumDocumentProvider)
-protected documentProvider: LangiumDocumentProvider;
-```
-
-#### Dynamic Model Loading
-
-Populate your tree editor with data from your Langium model:
-
-```typescript
-async init(): Promise<void> {
-  // Initialize base tree editor
-  await super.init();
-  
-  // Get the document from Langium
-  const uri = this.getResourceUri()?.toString();
-  if (uri) {
-    const document = await this.documentProvider.getOrCreateDocument(uri);
-    const model = document.parseResult.value;
-    
-    // Setup the tree with the model data
-    this.updateTree(model);
-    
-    // Subscribe to document changes
-    this.subscribeToModelChanges(uri);
-  }
-}
-```
-
-#### Real-time Synchronization
-
-Keep the tree view updated when textual changes occur:
-
-```typescript
-private subscribeToModelChanges(uri: string): void {
-  const workspace = this.languageServices.shared.workspace;
-  
-  workspace.onDidChangeTextDocument.event(event => {
-    if (event.document.uri.toString() === uri) {
-      // Update tree with new model when text changes
-      const updatedModel = event.document.parseResult.value;
-      this.updateTree(updatedModel);
-    }
-  });
-}
-```
-
-#### Translating Tree Operations to Text
-
-Convert user interactions in the tree to precise text edits:
-
-```typescript
-protected async handleTreeEdit(data: TreeEditor.EditData): Promise<void> {
-  const uri = this.getResourceUri()?.toString();
-  if (!uri) return;
-  
-  const document = await this.documentProvider.getOrCreateDocument(uri);
-  const textEdits = this.convertToTextEdits(data, document);
-  
-  // Apply edits via language server
-  const workspace = this.languageServices.shared.workspace;
-  await workspace.applyEdit({
-    documentChanges: [{
-      textDocument: { uri, version: document.version },
-      edits: textEdits
-    }]
-  });
-}
-
-private convertToTextEdits(data: TreeEditor.EditData, document: LangiumDocument): TextEdit[] {
-  // Implementation depends on your specific DSL grammar
-  // This maps tree edit operations to appropriate text changes
-  // ...
-}
-```
-
-For a reference implementation with a similar architecture, explore the CrossModel project:
 
 https://github.com/CrossBreezeNL/crossmodel
 

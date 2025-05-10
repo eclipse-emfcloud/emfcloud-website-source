@@ -8,7 +8,7 @@ weight = 160
 
 # Revolutionize Model Management with the Model Hub Approach
 
-The Model Hub Approach delivers a powerful, model-first solution for enterprise-grade modeling applications. Built around a centralized Model Hub, it provides advanced capabilities including command-based editing, comprehensive state management with undo/redo functionality, and robust persistence—making it the ideal foundation for scenarios demanding precise control and model-oriented workflow.
+The Model Hub Approach delivers a powerful, model-first solution for enterprise-grade modeling applications. Built around a centralized Model Hub, it provides advanced capabilities including command-based editing, comprehensive state management with undo/redo functionality, and robust persistence — making it the ideal foundation for scenarios demanding precise control and model-oriented workflow.
 
 <div style="text-align:center; margin-bottom:20px">
   <img src="../../images/OverviewModelHubApproach.svg" alt="Overview of the Model Hub" width="70%" />
@@ -572,7 +572,7 @@ Create powerful, interactive diagram editors using the [GLSP framework](https://
 
 #### SourceModelStorage
 
-The source model storage handles persistence of source models—loading from and saving to the model state. A source model is the underlying data model from which the diagram's graphical representation (graph model) is generated.
+The source model storage handles persistence of source models — loading from and saving to the model state. A source model is the underlying data model from which the diagram's graphical representation (graph model) is generated.
 
 With ModelHub integration, these responsibilities are elegantly handled by the `ModelHub` itself, which provides:
 - Model loading
@@ -586,7 +586,7 @@ The graph model factory transforms the source model (from the model state) into 
 
 #### Model Operations
 
-Operations on the model are forwarded to the [CustomModelService]({{< relref "#model-service-implementation" >}}), which provides specialized functions for model manipulation—such as dedicated create/delete functions that incorporate diagram-specific data like canvas positions.
+Operations on the model are forwarded to the [CustomModelService]({{< relref "#model-service-implementation" >}}), which provides specialized functions for model manipulation — such as dedicated create/delete functions that incorporate diagram-specific data like canvas positions.
 
 ### Example
 
