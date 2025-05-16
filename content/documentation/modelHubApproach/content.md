@@ -524,6 +524,7 @@ The Theia Tree Editor framework provides extensive base classes and service defi
 ### Integrating ModelHub
 
 Creating a Form Editor involves two key aspects:
+
 1. **Data provisioning**: Use the `FrontendModelHub` to fetch and manage models
 2. **Change synchronization**: Implement a `ModelService` to propagate editor changes back to the ModelHub
 
@@ -575,6 +576,7 @@ Create powerful, interactive diagram editors using the [GLSP framework](https://
 The source model storage handles persistence of source models — loading from and saving to the model state. A source model is the underlying data model from which the diagram's graphical representation (graph model) is generated.
 
 With ModelHub integration, these responsibilities are elegantly handled by the `ModelHub` itself, which provides:
+
 - Model loading
 - Subscription to model changes
 - Dirty state tracking
@@ -615,6 +617,7 @@ this.modelHub.getModel<CustomModelRoot>(modelUri);
     this.subscribeToChanges(modelUri);
   }
 ```
+
 </details>
 
 ##### Subscribe to model changes
@@ -647,6 +650,7 @@ private subscribeToChanges(modelUri: string): void {
     };
   }
 ```
+
 </details>
 
 ##### Save model
@@ -667,6 +671,7 @@ async saveSourceModel(action: SaveModelAction): Promise<void> {
     }
   }
 ```
+
 </details>
 
 #### CustomGModelFactory
@@ -724,3 +729,5 @@ This approach works for all diagram editor operations including deleting element
 Explore detailed examples of the Model Hub approach in action:
 
 https://github.com/eclipse-emfcloud/modelhub/tree/main/examples/theia
+
+Be aware that the example does not cover all cases described above.
