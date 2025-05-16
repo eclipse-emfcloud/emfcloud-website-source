@@ -31,7 +31,7 @@ The Langium-Based DSL approach delivers exceptional value for:
 - **Custom Format Requirements**: When you need complete control over the textual representation of your models
 - **Developer Experience Focus**: When advanced language features like autocompletion, validation, and navigation are critical to user productivity
 
-## Creating Your DSL with Langium
+## Creating your DSL with Langium
 
 [Langium](https://langium.org/) is a powerful open-source language engineering tool that transforms an EBNF-like grammar into a complete TypeScript-based language server with features like syntax highlighting, auto-completion, cross-references, and validation.
 
@@ -162,7 +162,7 @@ By using these components, implementing a language-specific `ModelServiceContrib
 A model persistence contribution provides language-specific methods to load and store models. Here's an example implementation:
 
 ```javascript
-class CustomePersistence implements ModelPersistenceContribution<string, CustomModelRoot> {
+class CustomPersistence implements ModelPersistenceContribution<string, CustomModelRoot> {
   modelHub: ModelHub;
   modelManager: ModelManager<string>;
 
