@@ -6,15 +6,13 @@ weight = 150
   sticky = true
 +++
 
-# Unleashing the Power of Textual DSLs
-
 The Langium-Based DSL Approach offers a sophisticated foundation for building modeling tools centered around textual domain-specific languages. This approach harnesses the advanced capabilities of Langium — providing professional-grade language features such as parsing, reference resolution, workspace indexing, and language server integration — while extending it with a purpose-built API designed specifically for modeling tools. The result is a seamless experience for developers and users working with models through both textual and visual interfaces.
 
 <div style="text-align:center; margin-bottom:20px">
   <img src="../../images/OverviewLangiumApproach.svg" alt="Overview of Langium Approach" width="70%" />
 </div>
 
-## Core Features and Benefits
+### Core Features and Benefits
 
 - **Complete Language Server Protocol Integration**: Enjoy a rich development experience with syntax highlighting, intelligent autocompletion, and real-time validation that guides users toward correct model definitions
 - **Sophisticated Symbol and Reference Management**: Navigate complex model relationships effortlessly with cross-file reference resolution that maintains model integrity
@@ -22,7 +20,7 @@ The Langium-Based DSL Approach offers a sophisticated foundation for building mo
 - **High-Performance Workspace Indexing**: Handle enterprise-scale models spanning hundreds of files with efficient indexing and search capabilities
 - **Seamless Multi-Client Collaboration**: Enable coordinated model editing across multiple editor instances with automatic synchronization
 
-## When to Choose This Approach
+### When to Choose This Approach
 
 The Langium-Based DSL approach delivers exceptional value for:
 
@@ -31,11 +29,11 @@ The Langium-Based DSL approach delivers exceptional value for:
 - **Custom Format Requirements**: When you need complete control over the textual representation of your models
 - **Developer Experience Focus**: When advanced language features like autocompletion, validation, and navigation are critical to user productivity
 
-## Creating your DSL with Langium
+### Creating your DSL with Langium
 
 [Langium](https://langium.org/) is a powerful open-source language engineering tool that transforms an EBNF-like grammar into a complete TypeScript-based language server with features like syntax highlighting, auto-completion, cross-references, and validation.
 
-### Grammar Definition
+#### Grammar Definition
 
 In Langium, you define your grammar in a dedicated `.langium` file. Here's an example of a simple grammar with JSON-like syntax:
 
@@ -102,7 +100,7 @@ and
 }
 ```
 
-### Customizing Language Behavior
+#### Customizing Language Behavior
 
 Langium's flexibility allows you to customize its behavior through a dependency injection framework. For example, if you want references to use the `id` property instead of `name`:
 
@@ -135,11 +133,11 @@ myLanguage.references.NameProvider.getName()
 
 The Model Hub offers pre-built modules to support JSON-based languages and provides shared services to simplify integration into the overall architecture. Future enhancements will include support for generating JSON-based grammars from TypeScript interfaces, making the creation of modeling languages even more efficient.
 
-## Langium Integration: The Engine Behind Your Models
+### Langium Integration: The Engine Behind Your Models
 
 To extend the Model Hub with your specific language, you need to provide a `ModelServiceContribution` that integrates your Langium-based DSL with the Model Hub ecosystem. This contribution can deliver a specialized Model Service API while enhancing the persistence and validation capabilities of the Model Hub.
 
-### Leveraging Existing Infrastructure
+#### Leveraging Existing Infrastructure
 
 A core principle of the Model Hub architecture is efficient reuse of existing components. This approach is evident in how we utilize Langium's infrastructure:
 
@@ -147,7 +145,7 @@ A core principle of the Model Hub architecture is efficient reuse of existing co
 
 - **Shared Dependency Injection**: We reuse Langium's dependency injection framework to bind Model Hub-specific services, including the core model hub implementation, model manager, command stack, model subscriptions, and validation services.
 
-### The EMF Cloud-Langium Bridge
+#### The EMF Cloud-Langium Bridge
 
 The connection between the Model Hub ecosystem and Langium is our comprehensive **EMF Cloud Model Hub Langium integration library**, which consists of two primary components:
 
@@ -157,7 +155,7 @@ The connection between the Model Hub ecosystem and Langium is our comprehensive 
 
 By using these components, implementing a language-specific `ModelServiceContribution` becomes straightforward — simply connect your Langium services with the Model Hub services and expose any additional functionality through your Model Service API.
 
-### Model Persistence Implementation
+#### Model Persistence Implementation
 
 A model persistence contribution provides language-specific methods to load and store models. Here's an example implementation:
 
@@ -209,11 +207,11 @@ class CustomPersistence implements ModelPersistenceContribution<string, CustomMo
 }
 ```
 
-### Model Validation
+#### Model Validation
 
 A model validation contribution provides validators that work on the semantic model, returning hierarchical diagnostic objects that capture information, warnings, and errors. The translation from Langium's `DiagnosticInfo` to the Model Hub's `Diagnostic` format is the main task in this contribution.
 
-### Cross References
+#### Cross References
 
 The ModelHub handles cross-references through the `AstLanguageModelConverter`, converting Langium `Reference` objects to serializable `ReferenceInfo` objects:
 
@@ -264,16 +262,16 @@ export class DefaultAstLanguageModelConverter implements AstLanguageModelConvert
 }
 ```
 
-## Diagram Editor: Visualizing Models with GLSP
+### Diagram Editor: Visualizing Models with GLSP
 <div style="text-align:center; margin-top:50px; margin-bottom:50px">
   <img src="../../images/diagramanimated.gif" alt="Overview of GLSP with Langium" width="80%" />
 </div>
 
-### Powerful Model Visualization and Editing
+#### Powerful Model Visualization and Editing
 
 The integration of diagram editors with Langium-based DSLs combines the intuitive nature of graphical modeling with the precision and expressiveness of textual DSLs. This powerful combination leverages the [Eclipse GLSP framework](https://eclipse.dev/glsp/) for sophisticated diagram editing while using Langium to manage the underlying model representation and provide comprehensive language services.
 
-### Seamless Integration Architecture
+#### Seamless Integration Architecture
 
 A well-designed integration between GLSP diagram editors and Langium includes these key components:
 
@@ -281,9 +279,9 @@ A well-designed integration between GLSP diagram editors and Langium includes th
 2. **Bidirectional Transformation**: Specialized components translate between the textual DSL structure (AST) and the graphical model representation
 3. **Real-time Synchronization**: Changes in either the diagram or text editor are instantly reflected across all views of the model
 
-### Implementation Guidelines with Code Examples
+#### Implementation Guidelines with Code Examples
 
-#### Establishing the Connection
+##### Establishing the Connection
 
 Connect your GLSP diagram editor with a Langium-based DSL using dependency injection:
 
@@ -297,7 +295,7 @@ protected languageServices: LangiumServices;
 protected documentFactory: LangiumDocumentFactory;
 ```
 
-#### Loading and Presenting Models
+##### Loading and Presenting Models
 
 Transform Langium's textual representation into a visual diagram:
 
@@ -318,13 +316,13 @@ For a complete implementation of this integration pattern, refer to the CrossMod
 
 https://github.com/CrossBreezeNL/crossmodel
 
-## Real-World Implementation
+### Real-World Implementation
 
 For a comprehensive example of this architecture in action, explore the CrossModel tool:
 
 https://github.com/CrossBreezeNL/crossmodel
 
-## Take the Next Step with Langium-Based DSLs
+### Take the Next Step with Langium-Based DSLs
 
 The Langium-Based DSL Approach combines the precision of textual languages with the power of visual modeling tools, delivering a comprehensive solution for domain-specific modeling. By integrating directly with the Model Hub, your DSLs become part of a larger modeling ecosystem while maintaining their unique capabilities.
 

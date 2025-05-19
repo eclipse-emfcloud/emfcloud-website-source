@@ -6,15 +6,13 @@ weight = 160
   sticky = true
 +++
 
-# Revolutionize Model Management with the Model Hub Approach
-
 The Model Hub Approach delivers a powerful, model-first solution for enterprise-grade modeling applications. Built around a centralized Model Hub, it provides advanced capabilities including command-based editing, comprehensive state management with undo/redo functionality, and robust persistence — making it the ideal foundation for scenarios demanding precise control and model-oriented workflow.
 
 <div style="text-align:center; margin-bottom:20px">
   <img src="../../images/OverviewModelHubApproach.svg" alt="Overview of the Model Hub" width="70%" />
 </div>
 
-## Core Features & Benefits
+### Core Features & Benefits
 
 - **Command-based editing**: Implement complex model operations through a structured command system, ensuring data integrity
 - **Centralized state management**: Maintain consistent model state with powerful undo/redo capabilities
@@ -22,7 +20,7 @@ The Model Hub Approach delivers a powerful, model-first solution for enterprise-
 - **Real-time multi-client support**: Enable seamless collaboration with synchronized updates across all clients
 - **Comprehensive model validation**: Catch errors early with the built-in validation framework
 
-## When to Choose This Approach
+### When to Choose This Approach
 
 The Model Hub approach delivers exceptional value for:
 
@@ -31,11 +29,11 @@ The Model Hub approach delivers exceptional value for:
 - Collaborative solutions where multiple users must work simultaneously
 - Projects where structured model data (rather than plain text files) is your primary focus
 
-## ModelHub: The Central Intelligence for Model Management
+### ModelHub: The Central Intelligence for Model Management
 
 The EMF Cloud Model Hub serves as the central coordination hub for model management, orchestrating multiple clients (like different editors) and their interactions with models. Beyond providing a generic model access API, the Model Hub is highly extensible to support various modeling languages.
 
-### Interacting with models
+#### Interacting with models
 
 Applications can contain multiple model hubs, each with a unique context identifier. This allows for flexible organization based on application requirements.
 
@@ -58,7 +56,7 @@ class ModelHubExample {
 }
 ```
 
-#### Loading and saving models
+##### Loading and saving models
 
 Load models using the model hub's asynchronous API:
 
@@ -89,7 +87,7 @@ Or save all modified models:
 modelHub.save();
 ```
 
-#### Resolving references
+##### Resolving references
 
 ModelHub provides sophisticated handling of cross-references between model elements, representing them as structured information objects:
 
@@ -138,7 +136,7 @@ export function reviveReferences<T extends object>(obj: T, referenceFactory: Ref
 }
 ```
 
-#### Changing models
+##### Changing models
 
 Models are modified through specialized Model Services that implement domain-specific editing operations as Commands on a CommandStack:
 
@@ -160,7 +158,7 @@ const modelService: CustomModelService = modelHub.getModelService<CustomModelSer
 await modelService.createNode(modelId, '/workflows/0', { type: 'AutomaticTask' });
 ```
 
-#### Validating models
+##### Validating models
 
 Model validation ensures data integrity through registered Validators:
 
@@ -190,7 +188,7 @@ const modelId = 'file:///custom-editor/examples/workspace/my.custom';
 const currentDiagnostic = modelHub.getValidationState(modelId);
 ```
 
-### Contributing modeling languages
+#### Contributing modeling languages
 
 Extend the ModelHub with custom modeling languages by implementing the `ModelServiceContribution` interface, which can handle:
 
@@ -279,7 +277,7 @@ class CustomPersistenceContribution implements ModelPersistenceContribution {
 }
 ```
 
-#### Persistence
+##### Persistence
 
 Register a `ModelPersistenceContribution` to handle model loading and saving:
 
@@ -318,11 +316,11 @@ class CustomPersistenceContribution implements ModelPersistenceContribution {
 }
 ```
 
-#### Editing Domain
+##### Editing Domain
 
 Model editing is handled through the ModelManager, which is accessed via Model Services that execute Commands on CommandStacks:
 
-##### Model Service implementation
+###### Model Service implementation
 
 The ModelService uses the ModelManager to execute Commands that modify models:
 
@@ -407,14 +405,14 @@ const command = new PatchCommand('Create Node', modelUri, model => {
 });
 ```
 
-##### Command Stack IDs
+###### Command Stack IDs
 
 Command Stack IDs define the scope of undo/redo operations. Typical scenarios include:
 
 - One command stack per editor (for independent editing)
 - Shared command stacks for interrelated models (for consistent state)
 
-##### Model Hub Context
+###### Model Hub Context
 
 A Context defines the scope of a Model Hub instance, with completely independent contributions, model managers, and command stacks. Applications can define contexts based on:
 
@@ -422,7 +420,7 @@ A Context defines the scope of a Model Hub instance, with completely independent
 - Language ID (for language isolation)
 - Or a single constant context for simpler applications
 
-#### Validators
+##### Validators
 
 Register validators through a ValidationContribution:
 
@@ -480,7 +478,7 @@ class TaskValidator implements Validator<string> {
 }
 ```
 
-#### Custom APIs
+##### Custom APIs
 
 Model Service Contributions expose public APIs for interaction with their models:
 
@@ -509,7 +507,7 @@ const createArgs = {
 await customModelService.createNode(modelUri, customModel.workflows[0], createArgs);
 ```
 
-## Form Implementation
+### Form Implementation
 
 <div style="text-align:center; margin-bottom:20px">
   <img src="../../images/treeeditor.png" alt="Overview of a Form with Model Hub" width="80%" />
@@ -517,11 +515,11 @@ await customModelService.createNode(modelUri, customModel.workflows[0], createAr
 
 Create sophisticated form based editors in Theia by leveraging [JSON Forms](https://jsonforms.io) and [ModelHub](https://github.com/eclipse-emfcloud/modelhub). This integration provides a robust foundation for creating customized form editors with seamless data management through the Frontend Model Hub.
 
-### Overview
+#### Overview
 
 The Theia Tree Editor framework provides extensive base classes and service definitions that can be extended and implemented to create tailored editors for specific data requirements. For comprehensive details, see the [official Theia Tree Editor documentation](https://github.com/eclipse-emfcloud/theia-tree-editor/blob/master/theia-tree-editor/DOCUMENTATION.MD).
 
-### Integrating ModelHub
+#### Integrating ModelHub
 
 Creating a Form Editor involves two key aspects:
 
@@ -530,7 +528,7 @@ Creating a Form Editor involves two key aspects:
 
 Achieve this integration by injecting the `FrontendModelHub` into your constructor and using it within the `init` method to monitor model changes and update the form accordingly. Implement the `handleFormUpdate` method to capture and apply data changes to the ModelHub-tracked model.
 
-### Example
+#### Example
 
 Your widget should integrate the ModelHub by adding a listener within the `init` method:
 
@@ -559,19 +557,19 @@ This method ensures that any editor changes are immediately reflected in the mod
 
 The ModelService is a custom service with access to the ModelManager, see the [Custom APIs section]({{< relref "#custom-apis" >}}).
 
-## Diagram Editor Implementation
+### Diagram Editor Implementation
 
 <div style="text-align:center; margin-top:50px; margin-bottom:50px">
   <img src="../../images/diagramanimated.gif" alt="Overview of GLSP with Model Hub" width="80%" />
 </div>
 
-### Introduction
+#### Introduction
 
 Create powerful, interactive diagram editors using the [GLSP framework](https://eclipse.dev/glsp/) integrated with the [ModelHub](https://github.com/eclipse-emfcloud/modelhub). This combination provides a seamless foundation for sophisticated diagramming tools with robust data management. The GLSP diagram editor leverages the `ModelHub` and `ModelService` interfaces for optimal performance and maintainability.
 
-### ModelHub Integration
+#### ModelHub Integration
 
-#### SourceModelStorage
+##### SourceModelStorage
 
 The source model storage handles persistence of source models — loading from and saving to the model state. A source model is the underlying data model from which the diagram's graphical representation (graph model) is generated.
 
@@ -582,21 +580,21 @@ With ModelHub integration, these responsibilities are elegantly handled by the `
 - Dirty state tracking
 - Model saving functionality
 
-#### GModelFactory
+##### GModelFactory
 
 The graph model factory transforms the source model (from the model state) into a graphical representation (`GModelRoot`). For complex transformations like creating edges, the `CustomModelService` provides reference resolution capabilities.
 
-#### Model Operations
+##### Model Operations
 
 Operations on the model are forwarded to the [CustomModelService]({{< relref "#model-service-implementation" >}}), which provides specialized functions for model manipulation — such as dedicated create/delete functions that incorporate diagram-specific data like canvas positions.
 
-### Example
+#### Example
 
-#### WorkflowModelStorage
+##### WorkflowModelStorage
 
 The `WorkflowModelStorage` demonstrates how to load and save source models via the `ModelHub`:
 
-##### Load the source model
+###### Load the source model
 
 Fetch the `CustomModelRoot` from the `modelHub`:
 
@@ -620,7 +618,7 @@ this.modelHub.getModel<CustomModelRoot>(modelUri);
 
 </details>
 
-##### Subscribe to model changes
+###### Subscribe to model changes
 
 Maintain real-time synchronization with model changes:
 
@@ -653,7 +651,7 @@ private subscribeToChanges(modelUri: string): void {
 
 </details>
 
-##### Save model
+###### Save model
 
 Trigger model saving through the ModelHub:
 
@@ -674,7 +672,7 @@ async saveSourceModel(action: SaveModelAction): Promise<void> {
 
 </details>
 
-#### CustomGModelFactory
+##### CustomGModelFactory
 
 Resolve references using the `CustomModelServer` to properly translate the source model into a `GModelRoot`:
 
@@ -697,7 +695,7 @@ Resolve references using the `CustomModelServer` to properly translate the sourc
   }
 ```
 
-#### Model Operations via the CustomModelService
+##### Model Operations via the CustomModelService
 
 Forward model operations to the `CustomModelService` for clean, maintainable code:
 
@@ -724,7 +722,7 @@ Forward model operations to the `CustomModelService` for clean, maintainable cod
 
 This approach works for all diagram editor operations including deleting elements, resizing, repositioning, and editing labels.
 
-## Example Implementation
+### Example Implementation
 
 Explore detailed examples of the Model Hub approach in action:
 
