@@ -18,7 +18,7 @@ Most of the EMF Cloud components are frameworks written in Typescript either run
 They range from model management components to provide consistent access to underlying models from mulitple types of editors within a tool to integration code with third-party technologies and platforms, such as [Eclipse Theia](https://theia-ide.org), VS Code, [Langium](https://langium.org), [Eclipse GLSP](https://eclipse.dev/glsp/), or [JSON Forms](https://jsonforms.io).
 If you need to reuse EMF-based tools and thus require Java on the backend, EMF Cloud also provides dedicated components to allow accessing and manipulating EMF models a modern web-based tool environment.
 
-➡️ To get an overview of all EMF Cloud components, please head over to the [Overview]({{< relref  "overview" >}}) section.
+➡️ To get an overview of all EMF Cloud components, please head over to the [Modeling Tool Approaches]({{< ref  "documentation/approaches" >}}) section.
 
 We are continuously working on improving this documentation. If you feel something is missing, please file an issue and open a PR at the [documentation repository](https://github.com/eclipse-emfcloud/emfcloud-website-source).
 If you need more help, please have a look at our [available support options]({{< relref  "/support" >}}).

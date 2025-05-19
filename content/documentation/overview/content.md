@@ -7,10 +7,10 @@ weight = 110
 +++
 
 At the center of EMF Cloud, there is a model management component, which provides consistent model access, as well as an interface for manipulating models and listening to model changes across various editors, views, and components interacting with a model.
-This model management component is called [*Model Hub* (Typescript)]({{< relref "modelHub" >}}).
+This model management component is called [*Model Hub* (Typescript)]({{< relref "approaches" >}}).
 
 <div style="text-align:center; margin-bottom:20px">
-  <img src="../../images/modelhub.svg" alt="Overview of the Model Hub" width="70%" />
+  <img src="../../images/overviewModelAPI.svg" alt="Overview of the Model API" width="70%" />
 </div>
 
 The Model Hub is an extensible central model management component, which offers a common API to all clients for accessing and interacting with models.
@@ -24,7 +24,7 @@ To make your life easier, you don't have to implement all of those Model Hub cap
 Instead EMF Cloud provides reusable libraries and integration code for third-party components to cover the most common choices and formats, such as JSON files.
 Also, EMF Cloud contains libraries that make it easy to connect and interact with the Model Hub.
 
-➡️ Best to [get started]({{< relref  "gettingStarted" >}}) with the Coffee Editor NG!
+➡️ Best to [get started]({{< relref  "gettingStarted" >}}) with one of our example applications: Model Hub examples for model management or CrossModel for DSL support.
 
 **Note on EMF:** If you need to support EMF-based models, there is a dedicated Java-based model management component for EMF models. For more information, please head over to the [EMF support documentation]({{< relref  "emf" >}}).
 For all other use cases, we recommend to use the *Model Hub* as it provides a more homogeneous developer experience based on Typescript throughout the client and the server.
